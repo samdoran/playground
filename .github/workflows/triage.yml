@@ -14,6 +14,15 @@ jobs:
     name: Label
 
     steps:
+      - name: Environment
+        run: env
+
+      - name: Debug
+        run: echo ${{ github.event }}
+
+      - name: Debug more
+        run: echo ${{ github }}
+
       - name: Label pull requests
         uses: actions/labeler@v3
         with:
