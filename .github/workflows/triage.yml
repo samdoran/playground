@@ -17,8 +17,6 @@ jobs:
       - name: Environment
         run: env
 
-      - run: echo ${{ github.event_name }}
-
       - name: Label pull requests
         uses: actions/labeler@v3
         with:
@@ -27,7 +25,7 @@ jobs:
         if: github.event_name == 'pull_request_target'
 
       - name: Label issues
-        uses: github/issue-labeler@v2.0
+        uses: github/issue-labeler@v2.4
         with:
           repo-token: "${{ secrets.GITHUB_TOKEN }}"
           not-before: 2021-12-07T07:00:00Z
