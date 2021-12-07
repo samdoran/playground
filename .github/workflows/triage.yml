@@ -17,18 +17,14 @@ jobs:
       - name: Environment
         run: env
 
-      - name: Debug
-        run: echo ${{ github.event }}
-
-      - name: Debug more
-        run: echo ${{ github }}
+      - run: echo ${{ github.event_name }}
 
       - name: Label pull requests
         uses: actions/labeler@v3
         with:
           repo-token: "${{ secrets.GITHUB_TOKEN }}"
           configuration-path: .github/pr-labeler.yml
-        if: github.event == 'pull_request_target'
+        if: github.event_name == 'pull_request_target'
 
       - name: Label issues
         uses: github/issue-labeler@v2.0
@@ -37,6 +33,6 @@ jobs:
           not-before: 2021-12-07T07:00:00Z
           configuration-path: .github/issue-labeler.yml
           enable-versioned-regex: 0
-        if: github.event == 'issues'
+        if: github.event_name == 'issues'
 
 
