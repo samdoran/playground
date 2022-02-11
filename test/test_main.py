@@ -3,4 +3,4 @@ def test_something():
 
 
 def test_something_else():
-    asselt 1 == 1
+    assert 1 == 1

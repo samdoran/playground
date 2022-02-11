@@ -25,7 +25,7 @@ jobs:
         if: github.event_name == 'pull_request_target'
 
       - name: Label issues
-        uses: github/issue-labeler@2.4.1  # Can I put a comment here
+        uses: github/issue-labeler@v2.4.1  # Can I put a comment here
         with:
           repo-token: "${{ secrets.GITHUB_TOKEN }}"
           not-before: 2021-12-07T07:00:00Z
