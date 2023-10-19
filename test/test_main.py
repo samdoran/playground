@@ -4,3 +4,7 @@ def test_something():
 
 def test_something_else():
     assert 1 == 1
+
+
+def test_broken():
+    raise Exception("Broken test")
