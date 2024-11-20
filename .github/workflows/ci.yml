@@ -2,8 +2,6 @@ name: CI
 
 on:
   push:
-    branches:
-      - main
   pull_request:
   merge_group:
 
@@ -15,6 +13,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4.1.1
+        with:
+          ref: ${{ github.ref }}
 
       - name: Install Python
         uses: actions/setup-python@v4.7.1
