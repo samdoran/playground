@@ -13,4 +13,4 @@ git remote set-url origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${G
 git push origin HEAD
 
 PR_URL=$(gh pr create --title "$PR_TITLE" --body '' | tail -n 1) || exit $?
-gh pr merge --auto --squash "$PR_URL"
+gh pr merge --auto --squash "$PR_URL" || echo "Branch protections are not enabled so auto-merging cannot be enabled."
