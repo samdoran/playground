@@ -23,10 +23,16 @@ jobs:
       - name: Debug
         run: |
           env | sort
+          echo "========"
           pwd
+          echo "========"
+          ls
+          echo "========"
           git remote -v
           git status
+          echo "========"
           cat /etc/os-release
+          echo "========"
           python -V
 
       - name: Update base image
@@ -39,4 +45,4 @@ jobs:
           GIT_COMMITTER_NAME: github-actions[bot]
           GIT_COMMITTER_EMAIL: github-actions[bot]@users.noreply.github.com
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: scripts/create-pr.sh
+        run: scripts/create-pr
