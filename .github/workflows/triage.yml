@@ -18,14 +18,14 @@ jobs:
         run: env
 
       - name: Label pull requests
-        uses: actions/labeler@v3
+        uses: actions/labeler@bf12e9b00b37c5c0ca2b87b79b2daf7891dbda13 # v7.0.0
         with:
           repo-token: "${{ secrets.GITHUB_TOKEN }}"
           configuration-path: .github/pr-labeler.yml
         if: github.event_name == 'pull_request_target'
 
       - name: Label issues
-        uses: github/issue-labeler@v2.4.1  # Can I put a comment here
+        uses: github/issue-labeler@ccca1e16fcb66762200e616fc29b57b940c1cb67 # v3.5
         with:
           repo-token: "${{ secrets.GITHUB_TOKEN }}"
           not-before: 2021-12-07T07:00:00Z
