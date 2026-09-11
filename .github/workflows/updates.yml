@@ -37,7 +37,7 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: Update base image
+      - name: Update
         run: ${{ matrix.job.command }}
 
       - name: Open a PR if changes were made
