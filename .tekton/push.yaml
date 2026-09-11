@@ -1,0 +1,67 @@
+apiVersion: tekton.dev/v1
+kind: PipelineRun
+metadata:
+  annotations:
+    build.appstudio.openshift.io/repo: https://github.com/rhel-lightspeed/okp-mcp?rev={{ revision }}
+    build.appstudio.redhat.com/commit_sha: '{{ revision }}'
+    build.appstudio.redhat.com/target_branch: '{{ target_branch }}'
+    pipelinesascode.tekton.dev/cancel-in-progress: "false"
+    pipelinesascode.tekton.dev/max-keep-runs: "3"
+    pipelinesascode.tekton.dev/on-cel-expression: >-
+      event == "push"
+      && (
+        target_branch == "main"
+        || target_branch.startsWith("release/")
+        || target_branch.startsWith("refs/tags/")
+      )
+
+  creationTimestamp: null
+
+  labels:
+    appstudio.openshift.io/application: rhel-knowledge-bridge
+    appstudio.openshift.io/component: rhel-knowledge-bridge
+    pipelines.appstudio.openshift.io/type: build
+
+  namespace: rhel-lightspeed-tenant
+  name: rhel-knowledge-bridge-on-push
+
+spec:
+  params:
+    - name: git-url
+      value: '{{ source_url }}'
+
+    - name: revision
+      value: '{{ revision }}'
+
+    - name: output-image
+      value: quay.io/redhat-user-workloads/rhel-lightspeed-tenant/rhel-knowledge-bridge:{{ revision }}
+
+    - name: dockerfile
+      value: /Containerfile
+
+    - name: hermetic
+      value: "true"
+
+    # Hermeto prefetch: pip sdists (no binary field = no binary SBOM annotations)
+    # plus the build-toolchain RPMs (rpms.lock.yaml). hermetic builds compile
+    # every wheel from source, so the network is fully isolated.
+    - name: prefetch-input
+      value: '[{"type": "pip", "path": ".", "requirements_files": [".konflux/requirements.txt"], "requirements_build_files": [".konflux/hermeto/build.txt", ".konflux/hermeto/build-pypi.txt"]}, {"type": "rpm", "path": "."}]'
+
+    - name: build-source-image
+      value: "true"
+
+    - name: additional-tags
+      value:
+        - latest
+
+  pipelineRef:
+    name: pipeline-build-multiarch
+
+  taskRunTemplate:
+    serviceAccountName: build-pipeline-rhel-knowledge-bridge
+
+  workspaces:
+    - name: git-auth
+      secret:
+        secretName: '{{ git_auth_secret }}'
