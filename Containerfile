@@ -1,5 +1,5 @@
 # Stage 1: Builder - Hummingbird Python 3.12 builder (has bash, dnf5, pip).
-FROM registry.access.redhat.com/hi/python:3.12-builder@sha256:9c5af05d17b1b5aed79e036096e5e1f1e7d764a389df1bf15ee554c111159225 AS builder
+FROM registry.access.redhat.com/hi/python:3.12-builder@sha256:68c687995a9708e386222507ae1ead717945f39d38c79704aeec448199025ad3 AS builder
 
 # Builder defaults to non-root (UID 65532); root is needed to create /opt and
 # install packages. This stage is ephemeral — only the venv is copied out.
@@ -37,7 +37,7 @@ RUN scripts/install-toolchain.sh
 RUN scripts/container-install.sh
 
 # Stage 2: Runtime - Hummingbird Python 3.12 distroless.
-FROM registry.access.redhat.com/hi/python:3.12@sha256:81cb1bad15b24099d2ad3a626d6fbc0218ce5c62a5f4a35a6e11192df0de57cf AS runtime
+FROM registry.access.redhat.com/hi/python:3.12@sha256:2f26866b56af9a5816517c66a8b1564e2e654b2caf5c3e8498497051c0e85443 AS runtime
 
 LABEL com.redhat.application=rhel-knowledge-bridge
 LABEL com.redhat.component=rhel-knowledge-bridge
