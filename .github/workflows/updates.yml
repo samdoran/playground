@@ -1,4 +1,4 @@
-name: Update
+name: Update refs
 
 on:
   schedule:
@@ -22,14 +22,18 @@ jobs:
       matrix:
         job:
           - name: Base image
-            command: update-image-refs -d
+            command: |
+              update-image-refs -d
+              make rpm-lock
             pr_title: Update base image
             pr_file_check: Containerfile
+            pr_branch: update-base-image
 
           - name: Task refs
             command: update-task-refs -o -f .tekton/pipeline-build-multiarch.yaml
             pr_title: Update task references
             pr_file_check: .tekton/pipeline-build-multiarch.yaml
+            pr_branch: update-task-refs
 
     steps:
       - name: Checkout
@@ -49,4 +53,5 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PR_TITLE: ${{ matrix.job.pr_title }}
           PR_FILE_CHECK: ${{ matrix.job.pr_file_check }}
-        run: scripts/create-pr
+          PR_BRANCH: ${{ matrix.job.pr_branch }}
+        run: create-pr
